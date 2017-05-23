@@ -102,7 +102,7 @@ var swapper = new Lazy(sum).eval() // swapper为一个Lazy对象
 ```
 
 ### map映射的promise写法
-```
+```javascript
 const arr = [1, 2, 3, 4];
 const result = await Promise.all(arr.map(item => {
     return new Promise(async (reslove, reject) => {
