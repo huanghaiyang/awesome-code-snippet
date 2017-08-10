@@ -209,8 +209,50 @@ function mapAsync(array, work, callback) {
 }
 ```
 
+### 发布/订阅者模式
 
+```javascript
+var publisher = {
+  subscribers: {
+    any: [],
+  },
+  subscribe: function (fn, type) {
+    type = type || 'any';
+    if (typeof this.subscribers[type] === 'undefined') {
+      this.subscribers[type] = [];
+    } else {
+      this.subscribers.push(fn);
+    }
+  },
+  publish: function (publication, type) {
+    this.visitSubscribe('publish', publication, type);
+  },
+  unsubscribe: function (fn, type) {
+    this.visitSubscribe('unsubscribe', fn, type);
+  },
+  visitSubscribe: function (action, arg, type) {
+    var pubType = type || 'any',
+      subscribers = this.subscribers[type],
+      i,
+      max = subscribers.lenght;
+    for (i = 0; i < max; i++) {
+      if(action === 'publish'){
+        subscribers[i](arg);
+      }else{
+        if(subscribers[i] === arg){
+          subscribers.splice(i, 1);
+        }
+      }
+    }
+  }
+}
 
-
-
-
+var makePublisher = function(o){
+  var i;
+  for(i in publisher){
+    if(publisher.hasOwnProperty(i) && typeof publisher[i] === 'function'){
+      o[i] = publisher[i];
+    }
+  }
+}
+```
