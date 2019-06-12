@@ -257,7 +257,7 @@ var makePublisher = function(o){
 }
 ```
 
-###继承
+### 继承
 ```javascript
 var inherit = (function() {
   var F = function(){};
